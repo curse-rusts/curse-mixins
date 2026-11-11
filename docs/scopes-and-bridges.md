@@ -8,15 +8,15 @@ Run the two-mod fixture containing 25 injections, nine bridges and eight runtime
 tests:
 
 ```sh
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/scoped --mods fixtures/scoped-mods \
   --out target/scoped-game --trust-native-mods
 ```
 
 Examples below use the fixture's source identities. Each helper is a separate
 Rust file relative to its bundle manifest. See the complete
-[alpha manifest](../fixtures/scoped-mods/alpha/horizon-mixin.toml),
-[beta manifest](../fixtures/scoped-mods/beta/horizon-mixin.toml) and
+[alpha manifest](../fixtures/scoped-mods/alpha/curse-mixin.toml),
+[beta manifest](../fixtures/scoped-mods/beta/curse-mixin.toml) and
 [original game source](../fixtures/scoped/game/src/lib.rs).
 
 ## Local capture
@@ -212,7 +212,7 @@ GET_MUT return shared/mutable references to a selected struct field; SET assigns
 a value. INVOKE delegates to an exact existing inherent/trait impl method or
 associated function. Each entry has an id, kind, target and (for fields) member.
 Generated public inherent methods are named
-`__horizon_mixins_<normalized_mod_id>_<normalized_bridge_id>`. Namespacing
+`__curse_mixins_<normalized_mod_id>_<normalized_bridge_id>`. Namespacing
 collisions and existing method collisions fail planning. Types and methods must
 be owned by the indexed workspace and unconditionally present. Generic types,
 unsafe/async/const/foreign/generic methods and ambiguous ownership are rejected.
@@ -240,8 +240,8 @@ target = "scoped_game::state::Entity::inc"
 Consumers of the staged game crate can call:
 
 ```rust
-let health: &i32 = entity.__horizon_mixins_alpha_get_health();
-let increased_health: &i32 = entity.__horizon_mixins_alpha_inc(2);
+let health: &i32 = entity.__curse_mixins_alpha_get_health();
+let increased_health: &i32 = entity.__curse_mixins_alpha_inc(2);
 ```
 
 IDs are lowercased and hyphens become underscores in generated names. Collisions

@@ -9,7 +9,7 @@ Version 0.6.0 lets a native bundle grow past a few helper files:
 - **data files** (`data/`), staged to `native-data/<mod-id>/` for `include_bytes!`;
 - **post-build steps** (`[[post_build]]`), recorded in `native-post-build.json` for the launcher.
 
-`horizon-mixins` never runs a post-build step. Everything below follows the existing staging rules:
+`curse-mixins` never runs a post-build step. Everything below follows the existing staging rules:
 the stage is published atomically, the output is deterministic, unchanged files keep their bytes and
 mtimes, symlinks and `..` fail, and every failure is a structured diagnostic. Plans use schema 6.
 
@@ -17,7 +17,7 @@ The compiled example is `fixtures/native` with `fixtures/native-mods/boost`:
 
 ```sh
 cargo fetch --locked --manifest-path fixtures/native/Cargo.toml
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/native --mods fixtures/native-mods \
   --out target/native-game --trust-native-mods
 ```
@@ -34,16 +34,15 @@ helper = "tick.rs"
 bindings = [{ name = "game", ty = "&mut Game", value = "self" }]
 ```
 
-The catalog is the one Horizon keeps at its repository root
-([horizon-rust/horizon#3871](https://github.com/horizon-rust/horizon/pull/3871)):
+The catalog is the one Curse keeps at its repository root:
 
 ```json
-{"hooks": [{"name": "tick", "version": 1, "target": "horizon_client::game::native_hooks::Game<'_>::native_tick"}]}
+{"hooks": [{"name": "tick", "version": 1, "target": "curse_client::game::native_hooks::Game<'_>::native_tick"}]}
 ```
 
 Before planning, each `(hook, hook_version)` is replaced by its `target`, so the rest of planning is
 unchanged. The plan keeps the resolved `target` and also records `hook` and `hook_version`. A hook
-version is a contract (signature, timing, behaviour). Horizon keeps an old version, or adds a new one
+version is a contract (signature, timing, behaviour). Curse keeps an old version, or adds a new one
 when the contract changes incompatibly. So a bundle fails at plan time with a clear message instead
 of compiling against a changed hook.
 
@@ -62,7 +61,7 @@ The catalog is read only when a manifest names a hook. Other fields in its entri
 [[crate]]
 id = "engine"                 # shares the id space with injections, modules, bridges, states
 path = "engine"               # bundle-relative folder holding Cargo.toml
-dependent = "native-game"     # workspace package that depends on it (default "horizon-client")
+dependent = "native-game"     # workspace package that depends on it (default "curse-client")
 ```
 
 The folder's files are copied to `native-crates/<mod-id>/<crate-id>/`. `target/`, `.git/`, `.local/`
@@ -90,7 +89,7 @@ registry package is ever added or changed, so the stage builds with `--locked`.
 A bundle crate's dependencies must be plain registry requirements: a version string, or a table using
 only `version`, `features`, `default-features` and `optional`. This applies to `[dependencies]`,
 `[dev-dependencies]` and `[build-dependencies]`. Each must match a registry package that is already
-in the workspace's `Cargo.lock`; the highest matching locked version is used. Horizon's lock file is
+in the workspace's `Cargo.lock`; the highest matching locked version is used. Curse's lock file is
 the allow list. A crate cannot depend on the game crate (Cargo forbids the cycle) or on any path or
 git crate. The game glue stays in helpers and support modules, and the heavy logic goes in the crate.
 
@@ -112,7 +111,7 @@ Rejected, with `E_CRATE`:
 - a `dependent` that is not a workspace member package. The message lists the members.
 
 Dependency problems are `E_CRATE_DEPENDENCY`, for example
-`boost needs rand ^0.8, which isn't in Horizon's Cargo.lock`. Paths with `..`, and symlinked crate
+`boost needs rand ^0.8, which isn't in Curse's Cargo.lock`. Paths with `..`, and symlinked crate
 folders or files, are `E_INVALID_PATH`.
 
 Cargo rebuilds a crate only when its sources or dependencies change. A bundle crate depends only on
@@ -124,13 +123,13 @@ no longer contains the crate's code.
 
 Every file under `<bundle>/data/` (of any type, with nothing skipped) is staged to
 `native-data/<mod-id>/` at the workspace root. Helpers and support modules in a game crate read it
-relative to that crate. From `crates/horizon-client`:
+relative to that crate. From `crates/curse-client`:
 
 ```rust
 include_bytes!(concat!(env!("CARGO_MANIFEST_DIR"), "/../../native-data/boost/greeting.txt"))
 ```
 
-Horizon wraps this as `native_data!("<mod-id>", "path")`. A support module cannot call
+Curse wraps this as `native_data!("<mod-id>", "path")`. A support module cannot call
 `include_bytes!` directly, because modules must be self-contained. A `data` entry that is a file or a
 symlink, or a symlink inside it, is `E_INVALID_PATH`. Data in direct `.toml` mods is not looked up.
 

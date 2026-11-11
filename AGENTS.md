@@ -6,7 +6,7 @@ This repo now contains a compilation-tested MVP. Read every doc before coding. D
 A working CLI that rewrites a tiny pinned Rust workspace where **two independently declared mods inject into the same function**. Staged output must compile, run tests and be deterministic.
 
 ## Deliverables
-- Cargo workspace crates: `horizon-mixins-core` (IR, manifests, indexing, planning, diagnostics), `horizon-mixins-transform` (syn rewrite), `horizon-mixins-cli` (CLI).
+- Cargo workspace: the root package `curse-mixins-cli` (CLI and the `curse-mixins` binary), members `curse-mixins-core` (IR, manifests, indexing, planning, diagnostics) and `curse-mixins-transform` (syn rewrite).
 - Use stable Rust; `syn` full/visit-mut, `quote`, `proc-macro2`, `serde`, `toml`, `cargo_metadata`, `prettyplease`, `thiserror` as useful.
 - `plan --workspace PATH --mods PATH --out PATH` outputs validated machine-readable JSON; `apply` stages rewritten source, never mutates originals; `check` runs cargo test on the fixture.
 - Start with declarative TOML, *not* proc-macro attributes.
@@ -22,4 +22,4 @@ A working CLI that rewrites a tiny pinned Rust workspace where **two independent
 Two mods inject HEAD in deterministic order and generated workspace passes cargo test. BEFORE_CALL invokes exactly once and preserves original call behavior. OVERWRITE succeeds, conflicts fail during planning. Repeated runs output byte-identical source, without rewriting unchanged files. Missing/ambiguous targets, wrong ordinal/count, duplicate IDs, unsupported macros and malformed mods report actionable diagnostics.
 
 ## Workflow
-(0) privacy/compilation spike, (1) parsing/index, (2) plan and conflict detection, (3) transform and test, (4) staging/Cargo, (5) isolated test on pinned Horizon commit. No Minecraft assets; no upstream edits without separate PR. Measure compile speed, don't assume it.
+(0) privacy/compilation spike, (1) parsing/index, (2) plan and conflict detection, (3) transform and test, (4) staging/Cargo, (5) isolated test on pinned Curse commit. No Minecraft assets; no upstream edits without separate PR. Measure compile speed, don't assume it.

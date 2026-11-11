@@ -1,3 +1,4 @@
 /target/
+/.curse-mixins/
 /.horizon-mixins/
 __pycache__/

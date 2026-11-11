@@ -1,11 +1,11 @@
 # Architecture
 
-The implemented workspace has three crates:
+The implemented workspace has the CLI package at the root and two member crates:
 
-- `horizon-mixins-core`: strict manifests, source snapshots, module/function
+- `curse-mixins-core`: strict manifests, source snapshots, module/function
   indexing, original-site IR, conflict detection and structured diagnostics.
-- `horizon-mixins-transform`: pure `syn` AST rewrite and `prettyplease` output.
-- `horizon-mixins-cli`: `plan`, `apply`, `check`, atomic staging and Cargo locks.
+- `curse-mixins-transform`: pure `syn` AST rewrite and `prettyplease` output.
+- `curse-mixins-cli`: `plan`, `apply`, `check`, atomic staging and Cargo locks; the root package, built as the `curse-mixins` binary.
 
 The planner snapshots inputs, asks `cargo_metadata` for workspace libraries and
 binaries with `--no-deps --locked --offline`, and walks their original module
@@ -84,7 +84,7 @@ fields/getters/initializer functions appended after all body changes. This keeps
 all original function/expression indices stable. Struct updates move existing
 state through their rest expression. See [effects and state](effects-and-state.md).
 
-`horizon-mixins-core::native` (0.6.0) resolves named hooks from `native-hooks.json` before
+`curse-mixins-core::native` (0.6.0) resolves named hooks from `native-hooks.json` before
 indexing, and validates bundle crates, data and post-build steps against the workspace's members
 and `Cargo.lock`. After the transform, `native::stage` adds the bundle files to the staged set and
 edits the root manifest, the dependents' manifests and `Cargo.lock` in place.

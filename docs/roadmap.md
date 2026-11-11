@@ -1,7 +1,7 @@
 # Roadmap and acceptance matrix
 
 Phases 0–4 are implemented. Phase 5 is verified for an isolated complete
-`horizon-core` crate at `028f60881678a9a0e3e198f693a82858fa475c76`.
+`curse-client` crate at `028f60881678a9a0e3e198f693a82858fa475c76`.
 Full game and launcher integration remain future work.
 
 | Phase | Result |
@@ -11,7 +11,7 @@ Full game and launcher integration remain future work.
 | 2 — Planning | Canonical JSON; original-site fingerprints; explicit counts/ordinals; deterministic priority/ID order; overwrite conflicts before mutation |
 | 3 — Transform | HEAD, BEFORE_CALL and OVERWRITE; source/plan snapshots; compiled behavior, borrowing and return-type tests |
 | 4 — Staging/Cargo | Immutable originals; atomic Linux publication; unchanged mtimes; stable locked target directories; concurrency tests and four-scenario benchmark |
-| 5 — Upstream prototype | Isolated pinned horizon-core export, two HEAD hooks in jmath::atan, upstream tests and hook probes; no assets/upstream edits |
+| 5 — Upstream prototype | Isolated pinned curse-client export, two HEAD hooks in jmath::atan, upstream tests and hook probes; no assets/upstream edits |
 | 6a — Advanced value/control features | Implemented: cancellable HEAD, RETURN, MODIFY_ARG, MODIFY_CONSTANT and composable WRAP_OPERATION with typed contracts, original-site planning and compiled tests |
 | 6b — Scoped features and bridges | Implemented: lexical local capture, same-block call-bounded slices, GET/GET_MUT/SET/INVOKE APIs, MODIFY_ARGS and MODIFY_VARIABLE STORE/scalar LOAD |
 | 6c — Native consumer | Implemented: lifetime impl method IDs, HEAD over preserved closure/`?` bodies, support modules and a real TOML Veinminer bundle; complete game binary compilation and AST audit |

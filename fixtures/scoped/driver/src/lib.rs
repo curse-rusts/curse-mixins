@@ -26,16 +26,16 @@ mod tests{
     #[test]
     fn public_bridges_preserve_privacy_borrowing_and_dependency_direction(){
         let mut entity=state::Entity::new();
-        assert_eq!(*entity.__horizon_mixins_alpha_get_health(),2);
-        entity.__horizon_mixins_alpha_set_health(7);
-        *entity.__horizon_mixins_alpha_get_health_mut()+=1;
-        assert_eq!(*entity.__horizon_mixins_alpha_inc(2),10);
-        assert_eq!(*entity.__horizon_mixins_beta_health(),10);
-        assert_eq!(entity.__horizon_mixins_beta_read_trait(),10);
-        assert_eq!(entity.__horizon_mixins_alpha_get_name(),"entity");
-        let entity=state::Entity::__horizon_mixins_alpha_create(19);
-        assert_eq!(*entity.__horizon_mixins_beta_health(),19);
-        assert_eq!(*state::pair().__horizon_mixins_beta_tuple_field(),8);
+        assert_eq!(*entity.__curse_mixins_alpha_get_health(),2);
+        entity.__curse_mixins_alpha_set_health(7);
+        *entity.__curse_mixins_alpha_get_health_mut()+=1;
+        assert_eq!(*entity.__curse_mixins_alpha_inc(2),10);
+        assert_eq!(*entity.__curse_mixins_beta_health(),10);
+        assert_eq!(entity.__curse_mixins_beta_read_trait(),10);
+        assert_eq!(entity.__curse_mixins_alpha_get_name(),"entity");
+        let entity=state::Entity::__curse_mixins_alpha_create(19);
+        assert_eq!(*entity.__curse_mixins_beta_health(),19);
+        assert_eq!(*state::pair().__curse_mixins_beta_tuple_field(),8);
     }
     #[test]
     fn argument_tuples_compose_with_single_argument_hooks_wrappers_and_capture(){

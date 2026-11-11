@@ -19,9 +19,10 @@ If all bytes are unchanged, staging does nothing. Changed generations hard-link
 unchanged files only from the previous stage, preserving file mtimes and modes;
 original input files are never hard-linked or modified. New/rewritten files are
 written independently. Removed input files disappear on the next publication.
-Build directories, `.git`, `.local`, `.horizon-mixins` and `node_modules` are
-excluded. Other symlinks and special files are rejected. Use source-only exports
-for large upstream trees containing unrelated runtime data.
+Build directories, `.git`, `.local`, `.curse-mixins` (and the legacy
+`.horizon-mixins`) and `node_modules` are excluded. Other symlinks and special
+files are rejected. Use source-only exports for large upstream trees containing
+unrelated runtime data.
 
 `check` executes only `cargo test --workspace --locked --offline`, optionally
 limited by repeated `--package`. `--trust-native-mods` explicitly opts into
@@ -33,7 +34,7 @@ across no-change and mod-change builds.
 `tools/benchmark.py` measures a first modded build, unchanged run, one helper
 change, and a shared game-source change. It stores transformation time, Cargo
 build-plus-test wall time, and Cargo's reported compile duration, plus platform
-and rustc version. Each invocation needs a fresh `--out`. The Horizon prototype
+and rustc version. Each invocation needs a fresh `--out`. The Curse prototype
 also records a baseline library test and two staged Cargo test runs. Results
 are documented in [implementation.md](implementation.md); they are measurements
 on one machine, not promises about game rebuild speed.
@@ -42,7 +43,7 @@ The full launcher cache is future work: source transformation cache entries,
 complete environment/feature/rustflag/build-script fingerprints, verified toolchain
 packages, final executable caching, successful-binary publication and rollback.
 No launcher integration is implemented. Rust incremental artifacts are not
-assumed portable. Horizon's `fast` profile is not selected automatically; the
+assumed portable. Curse's `fast` profile is not selected automatically; the
 MVP uses Cargo's test profile and measures it.
 
 Expression, after-hook and state changes use the same atomic stage, unchanged

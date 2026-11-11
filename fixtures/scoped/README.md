@@ -8,7 +8,7 @@ runtime tests check values, order, ownership and public bridge calls.
 From the repository root:
 
 ```sh
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/scoped --mods fixtures/scoped-mods \
   --out target/scoped-game --trust-native-mods
 ```

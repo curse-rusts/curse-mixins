@@ -157,8 +157,8 @@ require = 1
 ```
 
 For mod ID `example`, this creates private field
-`__horizon_mixins_example_history`, getter of the same name returning `&Vec<i32>`,
-and `__horizon_mixins_example_history_mut()` returning `&mut Vec<i32>`. Generated
+`__curse_mixins_example_history`, getter of the same name returning `&Vec<i32>`,
+and `__curse_mixins_example_history_mut()` returning `&mut Vec<i32>`. Generated
 identifiers lowercase IDs and replace hyphens with underscores; collisions fail
 planning. The type must be explicit and owned. Its initializer is an expression
 compiled in a standalone function in the owner's module, with no constructor
@@ -206,7 +206,7 @@ save data/backups according to that save system's own policy.
 
 ```sh
 cargo fetch --locked --manifest-path fixtures/effects/Cargo.toml
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/effects --mods fixtures/effects-mods \
   --out target/effects-game --trust-native-mods
 ```

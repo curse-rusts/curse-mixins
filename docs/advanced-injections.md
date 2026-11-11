@@ -12,7 +12,7 @@ the target crate. Body-rewriting operations retain macro/cfg/async/closure/try/g
 checks. HEAD permits preserved body control flow as specified in
 [boundary-head-and-modules.md](boundary-head-and-modules.md). Generated operation continuations are the compilation-tested exception
 to the source-closure restriction. Current plans use schema 5; older plans must
-be regenerated. Function definitions and bindings beginning `__horizon_mixins_`
+be regenerated. Function definitions and bindings beginning `__curse_mixins_`
 are reserved; references to generated bridge APIs are allowed.
 
 HEAD with `cancellable = true` returns `core::ops::ControlFlow<R>` (Continue(()),
@@ -94,7 +94,7 @@ and order, and snapshots the generated source and schema-5 plan.
 ## Run the complete fixture
 
 ```sh
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/advanced --mods fixtures/advanced-mods \
   --out target/advanced-game --trust-native-mods
 ```

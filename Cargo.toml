@@ -1,5 +1,16 @@
+[package]
+name = "curse-mixins-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+autoexamples = false
+
+[[bin]]
+name = "curse-mixins"
+path = "src/main.rs"
+
 [workspace]
-members = ["crates/horizon-mixins-core", "crates/horizon-mixins-transform", "crates/horizon-mixins-cli"]
+members = ["crates/curse-mixins-core", "crates/curse-mixins-transform"]
 exclude = ["fixtures/feasibility", "fixtures/privacy-failure", "fixtures/cycle", "fixtures/game", "fixtures/advanced", "fixtures/scoped", "fixtures/effects", "fixtures/native"]
 resolver = "2"
 
@@ -10,8 +21,8 @@ rust-version = "1.95"
 license = "MIT"
 
 [workspace.dependencies]
-horizon-mixins-core = { path = "crates/horizon-mixins-core" }
-horizon-mixins-transform = { path = "crates/horizon-mixins-transform" }
+curse-mixins-core = { path = "crates/curse-mixins-core" }
+curse-mixins-transform = { path = "crates/curse-mixins-transform" }
 syn = { version = "2", features = ["full", "visit", "visit-mut", "extra-traits"] }
 quote = "1"
 proc-macro2 = "1"
@@ -28,3 +39,17 @@ fs2 = "0.4"
 clap = { version = "4", features = ["derive"] }
 tempfile = "3"
 rustix = { version = "1", features = ["fs"] }
+
+[dependencies]
+curse-mixins-core.workspace = true
+curse-mixins-transform.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+clap.workspace = true
+fs2.workspace = true
+tempfile.workspace = true
+rustix.workspace = true
+
+[dev-dependencies]
+toml.workspace = true
+syn.workspace = true

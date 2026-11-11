@@ -2,7 +2,7 @@
 
 Veinminer is the first full-game consumer of this extension. Plans use schema 5;
 regenerate older plans. It declares three cancellable HEAD injections and one
-support module. All changes to the exported Horizon Rust source are performed
+support module. All changes to the exported Curse Rust source are performed
 by the mixin planner/transformer and atomic staging CLI.
 
 ## Lifetime-bearing methods
@@ -17,7 +17,7 @@ is identified by its declaring module:
 id = "command"
 kind = "HEAD"
 cancellable = true
-target = "horizon_client::game::commands::Game<'_>::run_command"
+target = "curse_client::game::commands::Game<'_>::run_command"
 helper = "command.rs"
 bindings = [
   { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
@@ -82,7 +82,7 @@ existing indexed source file:
 ```toml
 [[module]]
 id = "runtime"
-file = "crates/horizon-client/src/game.rs"
+file = "crates/curse-client/src/game.rs"
 name = "veinminer"
 source = "runtime.rs"
 ```
@@ -108,7 +108,7 @@ visibility = "pub"
 With `runtime.rs` containing `pub fn touch(value: &mut i32) { *value += 2; }`,
 this emits `pub mod support { ... }`. A hook in `fixture-driver` can call
 `fixture_game::support::touch(value)`. The
-[`public_support_module_is_callable_from_a_hook_in_a_dependent_crate` test](../crates/horizon-mixins-cli/tests/cases/boundary.rs)
+[`public_support_module_is_callable_from_a_hook_in_a_dependent_crate` test](../tests/cases/boundary.rs)
 compiles and exercises this arrangement. Public module visibility does not make
 its items or parent modules public. Rust still checks item/type visibility and
 dependency direction; no reverse dependency or cycle is introduced automatically.
@@ -120,8 +120,8 @@ refused with `E_MODULE_CONFLICT` only when that module's top-level items or impo
 (its own globs followed the same way, eight deep) or a support module already
 planned there have the name, whatever cfg the import has. Any other glob
 (`use std::fmt::*;`, an inline module) may bring in anything and is still refused.
-Horizon's client root `crates/horizon-client/src/lib.rs`
-(`pub use horizon_client_lib::*;`) can therefore receive a support module.
+Curse's client root `crates/curse-client/src/lib.rs`
+(`pub use curse_client_lib::*;`) can therefore receive a support module.
 
 It adds no Cargo dependencies or fields to existing structs. IDs are unique
 across injections, bridges and modules in a bundle.
@@ -147,9 +147,9 @@ Saved JSON remains a review artifact, not an executable CLI input.
 
 ## Veinminer integration
 
-The separate `horizon-veinminer` repository commits `mixins/veinminer/` with its
+The separate Veinminer repository commits `mixins/veinminer/` with its
 manifest, three typed hooks and runtime payload. Its development tool exports
-committed Horizon files, then invokes `horizon-mixins plan` and `apply`; it has
+committed Curse files, then invokes `curse-mixins plan` and `apply`; it has
 no custom Rust-source replacement logic. The runtime keeps UUID-keyed toggles
 and cooldowns in per-world state on the hosting thread, avoiding any change to
 `Game` fields or constructors. Extras call the unchanged native mining method.

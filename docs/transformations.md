@@ -63,7 +63,7 @@ Representative diagnostics:
 
 Diagnostics carry code/message and applicable file, mod, injection, target and
 selector. The CLI exits nonzero and prints JSON on stderr. Source and plan
-snapshots live in `crates/horizon-mixins-cli/tests/snapshots`; update deliberately
+snapshots live in `tests/snapshots`; update deliberately
 with `UPDATE_SNAPSHOTS=1 cargo test --workspace --locked`.
 
 Version 0.2.0 adds [advanced injection contracts](advanced-injections.md).
@@ -78,7 +78,7 @@ Regenerate older plans after upgrading.
 
 `E_ARGUMENT` diagnoses invalid MODIFY_ARG indices; `E_VALUE_SIGNATURE` and
 `E_OPERATION_SIGNATURE` diagnose incompatible composition. Function definitions
-and bindings beginning `__horizon_mixins_` are reserved (`E_RESERVED_NAME`);
+and bindings beginning `__curse_mixins_` are reserved (`E_RESERVED_NAME`);
 references to generated bridge APIs are allowed. The original cfg/macro/
 source safety checks and exclusive-overwrite rule remain in force.
 

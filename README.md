@@ -1,7 +1,7 @@
-# horizon-mixins
+# curse-mixins
 
 A working stable-Rust CLI for deterministic, build-time source mixins for
-[Horizon](https://github.com/ludovic111/horizon). The MVP implements declarative
+[Curse](https://github.com/curse-rusts/curse-rust). The MVP implements declarative
 TOML mods, HEAD and interior cancellation, BEFORE_CALL, AFTER_CALL, AFTER_ASSIGN,
 MODIFY_EXPRESSION_VALUE, RETURN, MODIFY_ARG,
 MODIFY_ARGS, MODIFY_CONSTANT, MODIFY_VARIABLE, WRAP_OPERATION, OVERWRITE,
@@ -14,21 +14,21 @@ Pristine Cargo workspace + independent mod bundles
     → separate staged workspace → cargo test --locked --offline
 ```
 
-The three workspace crates are `horizon-mixins-core` (manifests, indexing,
-planning, diagnostics), `horizon-mixins-transform` (AST rewriting), and
-`horizon-mixins-cli` (the `horizon-mixins` binary). Rust 1.95.0 and Cargo.lock
+The root package `curse-mixins-cli` builds the `curse-mixins` binary; the
+workspace members `curse-mixins-core` (manifests, indexing, planning,
+diagnostics) and `curse-mixins-transform` (AST rewriting) hold the rest. Rust 1.95.0 and Cargo.lock
 are pinned. Cargo metadata and builds use offline, locked dependency resolution.
 Run `cargo fetch --locked` once to populate the tool's dependencies.
 
 Build and run the complete two-mod fixture:
 
 ```sh
-cargo build --locked -p horizon-mixins-cli
-./target/debug/horizon-mixins plan \
+cargo build --locked -p curse-mixins-cli
+./target/debug/curse-mixins plan \
   --workspace fixtures/game --mods fixtures/mods --out target/plan.json
-./target/debug/horizon-mixins apply \
+./target/debug/curse-mixins apply \
   --workspace fixtures/game --mods fixtures/mods --out target/modded-game
-./target/debug/horizon-mixins check \
+./target/debug/curse-mixins check \
   --workspace fixtures/game --mods fixtures/mods --out target/modded-game \
   --trust-native-mods
 ```
@@ -43,10 +43,15 @@ are review artifacts; the CLI does not execute saved plans.
 `check --package NAME` limits Cargo to a package; `--target-dir PATH` selects
 a reusable, locked target directory. The default target directory is a stable
 sibling of the stage. Outputs, mods and originals must be separate. Existing
-output directories need the generated stage marker. Unchanged files keep their
+output directories need the generated stage marker
+`.curse-mixins-stage.json`; it is mirrored to the legacy
+`.horizon-mixins-stage.json` name for launchers that still look for it, and
+either marker proves ownership. Unchanged files keep their
 bytes and mtimes, including across publication of changed stages.
 
-A bundle contains `horizon-mixin.toml` and helper `.rs` files. For example:
+A bundle contains `curse-mixin.toml` and helper `.rs` files. Bundles that still
+use the older `horizon-mixin.toml` name are read as well; when both exist, the
+`curse-mixin.toml` file wins. For example:
 
 ```toml
 [mod]
@@ -89,7 +94,7 @@ to calls outside the value it modifies). Rust checks privacy, types and borrowin
 The five advanced features have a separate compilation fixture:
 
 ```sh
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/advanced --mods fixtures/advanced-mods \
   --out target/advanced-game --trust-native-mods
 ```
@@ -101,7 +106,7 @@ Version 0.3.0 adds local capture, slices, reusable field/method bridges, joint
 argument modification and local/parameter STORE and scalar LOAD modification:
 
 ```sh
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/scoped --mods fixtures/scoped-mods \
   --out target/scoped-game --trust-native-mods
 ```
@@ -123,15 +128,15 @@ The 89-test integration suite includes generated source/plan snapshots, positive
 negative compilation, deterministic ordering, immutable originals, stale-source
 rejection, concurrent checks, and unchanged mtimes. Linux CI runs the same checks.
 
-An isolated test against the complete `horizon-core` crate from commit
+An isolated test against the complete `curse-client` crate from commit
 `028f60881678a9a0e3e198f693a82858fa475c76` passed, including two independent
 HEAD hooks in `jmath::atan`. Reproduce it using your local clone:
 
 ```sh
-python3 tools/horizon_prototype.py --horizon /home/levzzz/Documents/horizon
+python3 tools/prototype.py --game /path/to/curse-rust
 ```
 
-It exports committed crate sources into a fresh `target/horizon-prototype`,
+It exports committed crate sources into a fresh `target/prototype`,
 uses an isolated workspace manifest/lockfile, runs upstream tests and generated
 probes, and records timings. It does not build the full game or launcher.
 No upstream checkout is edited; no Minecraft assets or prepared resources are used.
@@ -149,8 +154,7 @@ HEAD-only hooks, including cancellable HEAD, also preserve body expression/state
 macros such as `format!`, `matches!` and `vec!`; body-rewriting hooks also accept
 these three after [input and identity validation](docs/standard-macros.md). See
 [boundary HEAD and support modules](docs/boundary-head-and-modules.md).
-The separate [Veinminer port](https://github.com/levzzz5154/horizon-veinminer)
-uses three TOML HEAD hooks and one module on the pinned complete Horizon game.
+A separate Veinminer port uses three TOML HEAD hooks and one module on the pinned complete Curse game.
 
 Version 0.5.0 adds expression-result modification, after-call/after-assignment
 hooks, interior cancellation and namespaced per-instance state with explicit
@@ -159,7 +163,7 @@ for exact contracts, composition order, save-data behavior and supported limits.
 
 ```sh
 cargo fetch --locked --manifest-path fixtures/effects/Cargo.toml
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/effects --mods fixtures/effects-mods \
   --out target/effects-game --trust-native-mods
 ```
@@ -172,7 +176,7 @@ staged as workspace members with registry dependencies taken only from the exist
 [named hooks, bundle crates, data and post-build steps](docs/crates-data-and-named-hooks.md).
 
 ```sh
-cargo run --locked -p horizon-mixins-cli -- check \
+cargo run --locked -p curse-mixins-cli -- check \
   --workspace fixtures/native --mods fixtures/native-mods \
   --out target/native-game --trust-native-mods
 ```

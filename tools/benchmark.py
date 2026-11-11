@@ -28,7 +28,7 @@ def main():
     out.mkdir(parents=True)
     shutil.copytree(ROOT / "fixtures/game", out / "original")
     shutil.copytree(ROOT / "fixtures/mods", out / "mods")
-    subprocess.run(["cargo", "build", "--locked", "-p", "horizon-mixins-cli"], cwd=ROOT, check=True)
+    subprocess.run(["cargo", "build", "--locked", "-p", "curse-mixins-cli"], cwd=ROOT, check=True)
     results = {"rustc": subprocess.check_output(["rustc", "--version"], text=True).strip(),
                "platform": platform.platform(), "scenarios": {}}
     for scenario in ["baseline_modded", "no_change", "single_mod_change", "shared_core_change"]:
@@ -38,7 +38,7 @@ def main():
         if scenario == "shared_core_change":
             source = out / "original/engine/src/entity.rs"
             source.write_text(source.read_text().replace("entity.velocity += 1", "entity.velocity += 1 + 0"))
-        run = subprocess.run([str(ROOT / "target/debug/horizon-mixins"), "check", "--workspace", str(out / "original"),
+        run = subprocess.run([str(ROOT / "target/debug/curse-mixins"), "check", "--workspace", str(out / "original"),
                               "--mods", str(out / "mods"), "--out", str(out / "stage"),
                               "--target-dir", str(out / "cargo-target"), "--trust-native-mods"], capture_output=True, text=True)
         if run.returncode:

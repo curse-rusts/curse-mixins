@@ -43,14 +43,14 @@ time. `tools/benchmark.py` stores raw Cargo logs/reports under its fresh output
 directory. The Cargo compile column is Cargo's reported test-profile duration;
 the wall column includes executing tests and doc tests.
 
-The Horizon experiment exports the complete `horizon-core` crate from local
+The Curse experiment exports the complete `curse-client` crate from local
 Git commit `028f60881678a9a0e3e198f693a82858fa475c76`. Its crate sources remain
 unchanged before transformation. The experiment replaces only the exported
 root workspace manifest to isolate that crate, reduces the exported lockfile
 to its existing exact `libm = 0.2.16` dependency, adds an export revision stamp,
-and adds two test probes. The local Horizon checkout is never edited.
+and adds two test probes. The local Curse checkout is never edited.
 
-Two separately declared HEAD hooks target `horizon_core::jmath::atan`. Each
+Two separately declared HEAD hooks target `curse_client::jmath::atan`. Each
 panics at a different sentinel input, and the probe catches the exact messages
 to prove both hooks execute. A normal input retains the original bitwise result.
 All upstream library and integration tests pass: 106 library tests, 8 existing
@@ -62,10 +62,10 @@ compilation and 12.324 s Cargo-plus-tests. An identical run preserved the stage
 and reported 0.00 s Cargo compilation; its 9.606 s wall time is primarily the
 upstream tests, rather than recompilation. The baseline untransformed library
 test run took 11.884 s including compilation and execution (2.33 s reported compilation). Fresh repetitions
-will differ. Run `tools/horizon_prototype.py` with a fresh `--out` to generate
+will differ. Run `tools/prototype.py` with a fresh `--out` to generate
 raw baseline/Cargo logs and a report on the current machine.
 
-This validates the isolated complete foundation crate, not the full Horizon
+This validates the isolated complete foundation crate, not the full Curse
 game, graphics/audio stack, prepared assets, launcher, or production gameplay
 compatibility. Additional injection kinds, semantic resolution, cross-platform atomic
 replacement and executable publication/caching remain future work.
@@ -99,12 +99,12 @@ unchanged run retained the stage and recorded 0.087 s transformation/staging,
 `target/advanced-v020-{first,unchanged}.json`; these values describe this tiny
 fixture on this machine.
 
-The existing pinned Horizon HEAD prototype was rerun with 0.2.0 and again
+The existing pinned Curse HEAD prototype was rerun with 0.2.0 and again
 passed 116 library/integration/probe tests with two ignored upstream benchmarks.
 Its first staged build reported 2.67 s compilation, and the unchanged run 0.00 s.
 This regression confirms the existing isolated-crate integration; the new five
 features are validated on the advanced fixture, not claimed compatible with all
-Horizon functions or a complete game build.
+Curse functions or a complete game build.
 
 Version 0.3.0 adds lexical capture, call-bounded slices, reusable field/method
 bridges, MODIFY_ARGS and MODIFY_VARIABLE. See
@@ -128,12 +128,12 @@ The unchanged run retained the stage. Raw reports are under
 `target/scoped-v030-{first,unchanged}.json`. Measurements are specific to this
 tiny fixture and machine, not estimates for the full game.
 
-The 0.3.0 pinned Horizon HEAD regression again passed 116 tests with two ignored
+The 0.3.0 pinned Curse HEAD regression again passed 116 tests with two ignored
 upstream benchmarks. First-stage transformation took 0.374 s, compilation
 2.60 s and Cargo-plus-tests 12.369 s. Its unchanged run retained the stage,
 reported 0.02 s compilation and took 9.574 s including tests; baseline library
 compilation/tests took 12.037 s. Raw logs/reports are under
-`target/horizon-prototype-v030`. This verifies existing isolated `horizon-core`
+`target/prototype-v030`. This verifies existing isolated `curse-client`
 integration; the five new features are exercised by the scoped fixture. The
 upstream checkout and Minecraft assets were not modified or used.
 
@@ -143,7 +143,7 @@ include two-mod lifetime HEAD order, error propagation, exactly-once Drop,
 cancellation, module conflicts, scope restrictions and source/plan snapshots.
 Rustfmt, clippy with warnings denied, and privacy/cycle feasibility checks pass.
 The separate Veinminer 0.2.0 port now consumes a real TOML bundle: three HEAD
-hooks and one runtime module. The complete pinned Horizon game binary
+hooks and one runtime module. The complete pinned Curse game binary
 type-checks, and its 13 embedded mining tests pass. A canonical AST audit
 verifies all other original syntax is preserved. First native check/test Cargo
 wall times were 25.882 s / 49.394 s; full-workspace plan plus apply cost about
@@ -177,18 +177,18 @@ fixture (includes its existing serde dependencies):
 
 Raw reports are generated under `target/effects-measure-v050/`. These are tiny
 fixture measurements; no full-game rebuild speed claim follows from them.
-The pinned isolated horizon-core experiment was also repeated under
-`target/horizon-prototype-v050/`: the original upstream tests and two added HEAD
+The pinned isolated curse-client experiment was also repeated under
+`target/prototype-v050/`: the original upstream tests and two added HEAD
 probes pass. First modded transform/stage: 0.369 s; Cargo compile: 2.53 s; Cargo
 plus tests: 12.169 s. Unchanged: 0.363 s transform/stage, 0.00 s compile,
-9.706 s Cargo plus tests. It still uses the same committed Horizon pin and no
+9.706 s Cargo plus tests. It still uses the same committed Curse pin and no
 Minecraft assets or upstream source edits.
 
 HEAD-only macro preservation builds on contributor PR #2 and now covers both
 ordinary and cancellable HEAD hooks. The 72 integration tests compile `format!`,
 `matches!`, list/repeat `vec!`, custom macro early returns, cancellation and Drop
 behavior. Planning and staging cancellable HEAD hooks on the actual
-`Game::enter_guest` and `Mob::damage_with` methods also succeed against Horizon
+`Game::enter_guest` and `Mob::damage_with` methods also succeed against Curse
 commit `3c9bb38e88f5b95ce42a139bc600d3e9c61a2175`; removing the generated statements
 reproduces each complete file after canonical formatting. This source audit
 does not claim a full-game compilation or gameplay run.
@@ -199,6 +199,6 @@ crate (`boost-engine`, depending on the locked `serde_json`, with its own `data/
 a binary data file and a post-build step. The staged workspace passes `cargo test --workspace --locked
 --offline`, so the edited `Cargo.lock` is accepted unchanged. Nine integration tests cover the
 compiled path, unchanged bytes and mtimes (including the crate's files across a helper edit), two
-mods' crates, and every new diagnostic. Applying a crate-carrying bundle to a Horizon `main` export
+mods' crates, and every new diagnostic. Applying a crate-carrying bundle to a Curse `main` export
 (with the #3871 catalog) also produced a stage that `cargo metadata --locked` accepts. The suite has
 89 integration tests. Plans and package version are schema 6 / 0.6.0.

@@ -25,11 +25,11 @@ mod tests {
         let before=INITIALIZATIONS.load(Ordering::SeqCst);
         let mut a=Entity::new(1); let b=Entity::new(5);
         assert_eq!(INITIALIZATIONS.load(Ordering::SeqCst)-before,2);
-        a.tick(); a.tick(); assert_eq!(a.__horizon_mixins_alpha_history(),&vec![1,2]); assert!(b.__horizon_mixins_alpha_history().is_empty());
-        *a.__horizon_mixins_beta_counter_mut()=99;
-        let a=a.with_health(8); assert_eq!(*a.__horizon_mixins_beta_counter(),99); assert_eq!(INITIALIZATIONS.load(Ordering::SeqCst)-before,2);
-        let clone=a.clone(); assert_eq!(clone.__horizon_mixins_alpha_history(),a.__horizon_mixins_alpha_history());
-        let json=serde_json::to_string(&a).unwrap(); let restored:Entity=serde_json::from_str(&json).unwrap(); assert_eq!(*restored.__horizon_mixins_beta_counter(),99);
-        let old:Entity=serde_json::from_str(r#"{"health":10}"#).unwrap(); assert_eq!(*old.__horizon_mixins_beta_counter(),7); assert!(old.__horizon_mixins_alpha_history().is_empty());
+        a.tick(); a.tick(); assert_eq!(a.__curse_mixins_alpha_history(),&vec![1,2]); assert!(b.__curse_mixins_alpha_history().is_empty());
+        *a.__curse_mixins_beta_counter_mut()=99;
+        let a=a.with_health(8); assert_eq!(*a.__curse_mixins_beta_counter(),99); assert_eq!(INITIALIZATIONS.load(Ordering::SeqCst)-before,2);
+        let clone=a.clone(); assert_eq!(clone.__curse_mixins_alpha_history(),a.__curse_mixins_alpha_history());
+        let json=serde_json::to_string(&a).unwrap(); let restored:Entity=serde_json::from_str(&json).unwrap(); assert_eq!(*restored.__curse_mixins_beta_counter(),99);
+        let old:Entity=serde_json::from_str(r#"{"health":10}"#).unwrap(); assert_eq!(*old.__curse_mixins_beta_counter(),7); assert!(old.__curse_mixins_alpha_history().is_empty());
     }
 }

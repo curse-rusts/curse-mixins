@@ -8,7 +8,7 @@ Cargo metadata and Rust syntax parsing. Review the workspace's Cargo configurati
 and toolchain as part of trusting the native workspace.
 
 Cargo.lock is required, dependency resolution/builds are locked and offline,
-and source files/toolchain are fingerprinted before rewriting. Horizon bundles
+and source files/toolchain are fingerprinted before rewriting. Curse bundles
 can pin an exact commit and original function fingerprint. Source export revision
 stamps are trusted provenance metadata, not signed attestations. Helper path
 traversal, symlink escapes, source symlinks, external path dependencies and
@@ -27,7 +27,7 @@ provides syntax, not macro expansion or semantic resolution. Unproven source
 contexts are rejected; successful compilation does not establish gameplay safety.
 
 No game binaries, Minecraft assets, decompiled Java or prepared resources belong
-in this repository. The Horizon prototype exports only committed Rust crate
+in this repository. The Curse prototype exports only committed Rust crate
 source. License: MIT; see the repository LICENSE.
 
 Per-instance state changes the staged struct's Rust layout. repr/FFI and openly
@@ -41,4 +41,4 @@ Bundle crates (0.6.0) are native code with the same privileges, including their 
 They may only use registry packages already pinned in the workspace's `Cargo.lock`, with no path,
 git or workspace dependencies, and no `[workspace]`, `[patch]`, `[replace]` or `[target]` tables.
 Their target paths must stay inside the crate. `[[post_build]]` steps are recorded, never executed,
-by horizon-mixins; the launcher that runs them has to trust them as it trusts the mod.
+by curse-mixins; the launcher that runs them has to trust them as it trusts the mod.

@@ -1,6 +1,6 @@
 # SpongePowered Mixin feature map and remaining work
 
-Status: Horizon Mixins 0.6.0. This is a capability comparison and design backlog,
+Status: Curse Mixins 0.6.0. This is a capability comparison and design backlog,
 not Java annotation, bytecode or mod compatibility. The implementation uses Rust
 source before Cargo compilation; Sponge Mixin integrates Java bytecode with the
 runtime classloading pipeline. [Sponge overview](https://github.com/SpongePowered/Mixin/blob/master/README.MD).
@@ -11,7 +11,7 @@ features are not accepted TOML kinds. Unknown fields/kinds still fail validation
 
 ## Implemented counterparts
 
-| Sponge capability | Horizon counterpart | Supported boundary |
+| Sponge capability | Curse counterpart | Supported boundary |
 |---|---|---|
 | HEAD callback | HEAD | Explicit typed target-parameter context |
 | Cancellable callback | HEAD, BEFORE_CALL, AFTER_CALL, AFTER_ASSIGN with `cancellable = true` | ControlFlow returns from the target; whole-expression/statement proofs for interior sites |
@@ -120,7 +120,7 @@ See [effects and state](effects-and-state.md) and upstream
 
 ## Suggested next feature work
 
-1. Exercise the supported operations on real horizon-world state in an isolated
+1. Exercise the supported operations on real game-world state in an isolated
    pinned checkout and widen receiver/context support based on compiled cases.
 2. Widen borrowed-result adapters only with lifetime and destruction-order proofs.
 3. Add optional declarative compatibility groups and extend existing receiver,

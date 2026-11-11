@@ -2,7 +2,9 @@
 
 Mods are trusted Rust snippets described by TOML, rather than proc-macro
 attributes. `--mods DIR` discovers direct `.toml` files and
-`DIR/<bundle>/horizon-mixin.toml`. Discovery order has no semantic effect.
+`DIR/<bundle>/curse-mixin.toml`. The legacy `horizon-mixin.toml` name is read
+too, and `curse-mixin.toml` wins when both are present. Discovery order has no
+semantic effect.
 Unknown fields, duplicate IDs and missing helpers fail validation.
 
 ```toml
@@ -11,9 +13,9 @@ id = "better-movement"
 version = "0.1.0"
 priority = 100 # default; each injection can override it
 
-# Optional, exact 40-character commit; see the isolated Horizon prototype.
+# Optional, exact 40-character commit; see the isolated Curse prototype.
 [compatibility]
-horizon_revision = "028f60881678a9a0e3e198f693a82858fa475c76"
+curse_revision = "028f60881678a9a0e3e198f693a82858fa475c76"
 
 [[injection]]
 id = "before-second-consume"
@@ -27,10 +29,12 @@ bindings = [{ name = "log", ty = "&mut Vec<&'static str>", value = "&mut *log" }
 # fingerprint = "<SHA-256 from the original plan>" # optional compatibility guard
 ```
 
-`horizon_revision` is checked against Git HEAD or the `.horizon-revision` stamp
-of a controlled source export. A stamp is provenance metadata, not cryptographic
-attestation. The source files, Cargo.lock, toolchain file when present, and all
-other staged inputs also have SHA-256 fingerprints in the plan.
+`curse_revision` is checked against Git HEAD or the `.curse-revision` stamp
+of a controlled source export; the legacy `.horizon-revision` stamp and the
+`horizon_revision` manifest key are accepted as fallbacks. A stamp is provenance
+metadata, not cryptographic attestation. The source files, Cargo.lock, toolchain
+file when present, and all other staged inputs also have SHA-256 fingerprints in
+the plan.
 
 Helper paths must be relative to their manifest directory, without traversal
 or escapes through symlinks. A helper file contains exactly one private,
